@@ -105,7 +105,7 @@ void FFT(FFTchannel* ch, char FFT_type)
     }
 
     avg = sum * 1.0f / NPT;//算出直流分量
-    ch->dc = avg / 4096 * 3.3f;
+    ch->dc = avg / pow(2, adc_bit) * adc_max;
 
     for (int i = 0; i < NPT; i++)
     {
@@ -301,7 +301,7 @@ void UserIFFT(FFTchannel* ch, float* out)
     }
     for (int i = 0; i < NPT; i++)
     {
-        out[i] = ch->ifft[i * 2] * 1.0f / NPT + ch->dc / 3.3f * 4096;
+        out[i] = ch->ifft[i * 2] * 1.0f / NPT + ch->dc / pow(2, adc_bit) * adc_max;
     }
 }
 
